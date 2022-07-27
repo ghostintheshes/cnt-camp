@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net"
@@ -17,7 +16,7 @@ func Q1(ctx *gin.Context) {
 			ctx.Writer.Header().Add(k, value)
 		}
 	}
-	ctx.JSON(200, fmt.Sprintf("Headers has been written:\n%s", Header))
+	ctx.JSON(200, map[string]any{"Headers has been written": Header})
 }
 
 func Q2(ctx *gin.Context) {
@@ -33,20 +32,20 @@ func Q3(ctx *gin.Context) {
 	Ip := ctx.ClientIP()
 	//Ip := getRealIP(ctx.Request)
 	log.Printf("Client IP is %s,  Return Code: %d", Ip, 200)
-	ctx.Status(200)
+	ctx.JSON(200, "OK")
 }
 
 func getRealIP(request *http.Request) string {
 	ip := ""
-	if h := request.Header.Get("X-Forwarded-For"); h != nil {
+	if h := request.Header.Get("X-Forwarded-For"); h != "" {
 		ip = strings.TrimSpace(strings.Split(h, ",")[0])
-		if ip != nil {
+		if ip != "" {
 			return ip
 		}
 	}
-	if h := request.Header.Get("X-Real-Ip"); h != nil {
+	if h := request.Header.Get("X-Real-Ip"); h != "" {
 		ip := strings.TrimSpace(strings.Split(h, ",")[0])
-		if ip != nil {
+		if ip != "" {
 			return ip
 		}
 	}

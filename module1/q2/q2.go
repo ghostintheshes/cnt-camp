@@ -8,7 +8,9 @@ import (
 
 func Producer(ch chan<- int) {
 	for {
-		ch <- rand.Intn(10)
+		n := rand.Intn(10)
+		fmt.Printf("produce number: %d\n", n)
+		ch <- n
 		time.Sleep(time.Second * 1)
 	}
 }
@@ -17,6 +19,6 @@ func Consumer(ch <-chan int) {
 	for true {
 		time.Sleep(time.Second * 1)
 		n := <-ch
-		fmt.Println(n)
+		fmt.Println(fmt.Printf("consume a number: %d\n", n))
 	}
 }

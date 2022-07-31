@@ -22,6 +22,30 @@ func TestConsumer(t *testing.T) {
 				log.Fatal(err)
 			}
 		}()
+		Producer(ch)
+	}()
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		Producer(ch)
+	}()
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		Consumer(ch)
+	}()
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Fatal(err)
+			}
+		}()
 		Consumer(ch)
 	}()
 	time.Sleep(time.Second * 11)
